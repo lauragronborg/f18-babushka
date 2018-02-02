@@ -1,0 +1,34 @@
+let menu;
+
+        document.addEventListener("DOMContentLoaded", loadJson);
+
+        let modtager = document.querySelector(".templateModtager");
+        let template = document.querySelector(".myTemplate");
+
+        async function loadJson() {
+            let minListe = await fetch("menu.json");
+            menu = await minListe.json();
+            console.log(menu);
+
+            visMenu(menu);
+        }
+
+        function visMenu(menu) {
+
+            menu.forEach(hverRet => {
+                let klon = template.cloneNode(true).content;
+
+                klon.querySelector(".navn").textContent = hverRet.navn;
+                klon.querySelector(".billede").setAttribute("src", "imgs/small/" + hverRet.billede + "-sm.jpg");
+                klon.querySelector(".billede").alt = "billede af " + hverRet.billede;
+
+                klon.querySelector(".pris").textContent = "pris:" + " " + hverRet.pris + " " + "kr";
+                klon.querySelector(".kortbeskrivelse").textContent = hverRet.kortbeskrivelse;
+                klon.querySelector(".langbeskrivelse").textContent = hverRet.langbeskrivelse;
+
+
+
+                modtager.appendChild(klon);
+            })
+
+        }
